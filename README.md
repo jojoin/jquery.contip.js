@@ -40,9 +40,35 @@ var theDefaultOptions = {
     tips: '' //总外部样式 absolute fixed 相对于body
   },
 
-  ready: function($elm,$tip){} //已经显示完成之后的回调
+  ready: function($elm,$tip){} //已经显示完成之后的回调，$elm为源元素，$tip为新的提示框
 };
 ```
+
+
+
+示例代码：
+
+```javascript
+
+$('.elm').contips({
+  align: 'bottom',
+  con: '提示框内容'
+});
+
+```
+
+
+
+
+## 许可证（MIT）
+
+版权所有（c）2013 杨捷<http://jojoin.com/user/1/>
+
+你可以随意使用并修改此模块的内容，但不能替换或修改作者的名称及主页。
+
+
+
+
 
 
 
