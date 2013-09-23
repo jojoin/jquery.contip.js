@@ -61,7 +61,6 @@ contips = (function($){
 
         var that = $(this);
 
-
         //参数预处理
         opts.ver_w = 10; //小三角宽度
 
@@ -123,6 +122,7 @@ contips = (function($){
     }
     function open(that,op,offset){
         var backOb = calculate(that,op,offset);
+
         that.$tip = $(getHtml(that,backOb)).appendTo(document.body);
         op.ready(that,that.$tip);
         hoverNotClose(that,op);
@@ -237,8 +237,6 @@ contips = (function($){
 
     //获得html
     function getHtml(that,op){
-    
-    
         return tmpl(CONTIPS_TPL,op);
     }
 
@@ -336,3 +334,55 @@ window.tmpl = (function (cache, $) {
 
         return data ? fn(data) : fn;
     }})({}, '$' + (+ new Date));
+
+
+
+
+
+
+function  ScollPostion() {//滚动条位置
+    var t, l, w, h, cw, ch;
+    var documentElement = document.documentElement;
+    var documentBody = document.body;
+    if (documentElement && documentElement.scrollTop) {
+        t = documentElement.scrollTop;
+        l = documentElement.scrollLeft;
+        w = documentElement.scrollWidth;
+        h = documentElement.scrollHeight;
+    } else if (documentBody) {
+        t = documentBody.scrollTop;
+        l = documentBody.scrollLeft;
+        w = documentBody.scrollWidth;
+        h = documentBody.scrollHeight;
+    }
+
+    var innerWidth = window.innerWidth;
+    var innerHeight = window.innerHeight;
+    var doClientWidth = documentBody.clientWidth;
+    var doClientHeight = documentBody.clientHeight;
+    var enClientWidth = documentElement.clientWidth;
+    var enClientHeight = documentElement.clientHeight;
+
+    //获取窗口宽度
+    if (innerWidth)
+        cw = innerWidth;
+    else if ((documentBody) && (doClientWidth))
+        cw = doClientWidth;
+    //获取窗口高度
+    if (innerHeight)
+        ch = innerHeight;
+    else if ((documentBody) && (doClientHeight))
+        ch = doClientHeight;
+
+    //通过深入Document内部对body进行检测，获取窗口大小
+    if (documentElement  && enClientHeight &&
+        enClientWidth)
+    {
+        ch = enClientHeight;
+        cw = enClientWidth;
+    }
+
+
+    return { top:t, left:l, width:w, height:h, clientWidth:cw ,clientHeight:ch };
+}
+
