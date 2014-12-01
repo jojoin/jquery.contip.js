@@ -215,12 +215,10 @@
     font_size: '12px', // 正文字体
 
     fade: 0, // 渐入渐出
-    delay_in: 0, // 延迟
-    delay_out: 0, // 延迟
 
     html: '',
     live: false, // 总是显示
-    opacity: 0.86, // 透明度
+    opacity: 1, // 透明度
     attr: 'title', // attr 要处理的属性
     trigger: 'hover', // 绑定的事件 hover click dblclick focus ..
     show: false, // 是否默认显示

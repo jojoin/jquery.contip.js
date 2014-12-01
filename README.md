@@ -1,47 +1,45 @@
-jquery.contips.js
+jquery.contip.js
 =================
 
-一个基于JQuery的提示框tips插件。
+一个基于JQuery的气泡提示框tip插件。
 
 ##选项
 
 ```javascript
-//默认选项
-var theDefaultOptions = {
-  
-  min_w: 128,
-  min_h: 68,
 
-  align: 'auto', //提示框出现的位置 auto top left right bottom
-  mode:'hover', //显示的方式 instant hover click focus
-  cursor: false, //显示跟随光标
-  event: false, //事件
+//默认选项{
 
-  ver_sc: 0.5,
-  ver_px: 0,
-  elm_sc: 0.5, //偏移百分比
-  elm_px: 0, //偏移像素
+    align: 'top', // 气泡出现的位置， top right bottom left
+    padding: 7,
+    radius: 4, // 气泡圆角大小 px
+    max_width: 222, // 气泡最大宽度 px
+    rise: 0, // 气泡相对浮动位置，可为负值
 
-  oft: 0, //指定内外偏移，可以为负值，
 
-  out_close: true, //鼠标移出提示框关闭
-  hover: true, //鼠标移至提示框不关闭
-  open: 360, //显示延迟
-  close: 250, //关闭延迟
-  ver_pos: false, //指定小三角的位置 {left:0,top:0}
+    bg: '#000', // 背景颜色
+    fg: 'transparent', // 气泡内部颜色
+    color: '#fff', // 正文字体颜色
+    font_size: '12px', // 正文字体
 
-  con: '', //默认内容
+    fade: 0, // 渐入渐出
+    delay_in: 0, // 延迟
+    delay_out: 0, // 延迟
 
-  style:{
-    close: '', //关闭按钮样式
-    wrap: '', //样式，宽高度自适应，可设置min-width和min-height
-    ver: '', //小三角样式
-    con: '', //内容样式
-    tips: '' //总外部样式 absolute fixed 相对于body
-  },
+    html: '',
+    live: false, // 总是显示
+    opacity: 0.86, // 透明度
+    attr: 'title', // attr 要处理的属性
+    trigger: 'hover', // 绑定的事件 hover click dblclick focus ..
+    show: false, // 是否默认显示
 
-  ready: function($elm,$tip){} //已经显示完成之后的回调，$elm为源元素，$tip为新的提示框
-};
+    v_size: 6, // 尖角的大小，像素
+    v_pos: 0.5, // 尖角出现的位置
+    v_px: 0, // 尖角出现的位置的偏移 px像素 可为负值
+
+    elm_pos: 0.5, // 尖角相对于elm出现的位置
+    elm_px: 0 // 尖角偏移 可为负值
+
+  };
 ```
 
 
@@ -50,9 +48,9 @@ var theDefaultOptions = {
 
 ```javascript
 
-$('.elm').contips({
-  align: 'bottom',
-  con: '提示框内容'
+$('.elm').contip({
+  align: 'bottom', //出现在元素底部
+  html: '提示框内容'
 });
 
 ```
@@ -62,7 +60,7 @@ $('.elm').contips({
 
 ## 许可证（MIT）
 
-版权所有（c）2013 杨捷<http://jojoin.com/user/1/>
+版权所有（c）2013 杨捷<http://github.com/yangjiePro/>
 
 你可以随意使用并修改此模块的内容，但不能替换或修改作者的名称及主页。
 

@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta name="description" content="contips" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>jquery.contip.js - 气泡提示框插件</title>
+  <script type="text/javascript" src="lib/jquery-2.0.3.min.js"></script>
+  <script type="text/javascript" src="src/jquery.contip.js"></script>
+  <style type="text/css">
+    body{
+
+    }
+    .bg{
+      position: absolute; left: 50%; top: 25%; margin: -100px 0 0 -180px;
+      width: 360px; height: 200px; background: #eee;
+    }
+    .item{
+      display: inline-block; margin: 10px 25px;
+      width: 50px; height: 50px; background: #666;
+      border-radius: 10px; cursor: pointer;
+      font-size: 12px; line-height: 50px; text-align: center;
+    }
+    .item:hover{
+      background: #333;
+    }
+    .one4{
+      background: #fff;
+      border-radius: 3px;
+      width: 46px;
+    }
+    .one4:hover{
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="bg">
+  <p style="font-size: 14px; text-align: center">contip示例：</p>
+  <div class="item one1" title="contips示例：透明度">滑过上</div>
+  <div class="item one2">滑过下</div>
+  <div class="item one3">点击出现</div>
+  <input class="item one4" value="输入框" />
+  <div class="item one5">html</div>
+  <div class="item one6">显示</div>
+</div>
+
+
+<script type="text/javascript">
+
+
+  $('.one1').contip({
+    align: 'top',
+    html: '上方出现提示框'
+    //attr: 'extitle'
+    //live: true
+  });
+
+  $('.one2').contip({
+    align: 'bottom',
+    fade: 360,
+    opacity: 0.5,
+    html: '下方出现提示框，有动画及透明度'
+  });
+
+  $('.one3').contip({
+    trigger: 'click',
+    align: 'top',
+    rise: 10,
+    v_pos: 0.0,
+    v_px: 5,
+    elm_pos: 0.0,
+    elm_px: 10,
+    html: '点击出现提示框，并有浮动和位移'
+  });
+
+
+  $('.one4').contip({
+    trigger: 'focus',
+    align: 'left',
+    fade: 360,
+    rise: 10,
+    html: '输入框提示'
+  });
+
+  $('.one5').contip({
+    align: 'bottom',
+    fg: '#fff',
+    bg: '#999',
+    padding: 1,
+    html: '<div class="item">显示html</div>'
+    //attr: 'extitle'
+    //live: true
+  });
+
+  $('.one6').contip({
+    fade: 0,
+    rise: 0,
+    align: 'bottom',
+    show: true,
+    html: '默认显示提示框'
+    //attr: 'extitle'
+    //live: true
+  });
+
+
+
+
+/*
+
+
+  $('.one1').contips({
+    con: 'contips提示框<br>上'
+  });
+
+  $('.one2').contips({
+    align: 'bottom',
+    ready: function($elm,$tip){
+      $tip.find('.con').html( 'contips提示框<br>下');
+    } //数据回调
+  });
+
+  $('.one3').contips({
+    mode:'click', //显示的方式 instant hover click focus
+    con: 'contips提示框<br>点击出现'
+  });
+
+  $('.one4').contips({
+    mode:'focus', //显示的方式 instant hover click focus
+    con: 'contips提示框<br>输入框'
+  });
+
+  $('.one6').contips({
+    align: 'bottom',
+    mode:'instant', //显示的方式 instant hover click focus
+    con: 'contips提示框<br>默认显示'
+  });
+
+*/
+
+
+
+
+</script>
+
+
+
+</body>
+</html>
