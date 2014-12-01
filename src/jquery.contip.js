@@ -12,17 +12,39 @@
 
 ;(function($){
 
+  // 气泡缓存
+  var _id = 0
+    , Contips = {};
+
+  //窗口大小改变，更新气泡位置
+  window.onresize = update_all;
+
+  // jQuery 扩展
   $.fn.contip = function(opt){
-    /*
-    var $this = $(this)
-      , sign = 'contipalready';
-    if($this.attr(sign))
-      return
-    $this.attr(sign,true);
-    */
-    return new Contip(this, opt);
+
+    opt = opt || {};
+    for(var d in defOpt){
+      if(opt.hasOwnProperty(d))
+        continue
+      opt[d] = defOpt[d];
+    }
+
+    //新建提示框
+    var that = new Contip(this, opt);
+    that.id = ++_id;
+    Contips['id'+that.id] = that;
+    return that;
 
   };
+
+
+  // 刷新所有气泡
+  function update_all(){
+    for(var i in Contips) {
+      Contips[i].update();
+    };
+  }
+
 
   // 事件监听
   function trigger(that, $elm, opt){
@@ -42,13 +64,19 @@
     }
   }
 
+
   // 气泡类
   function Contip(elm, opt){
-    var $elm = this.$elm = $(elm)
-      , opt = this.options = $.extend({}, defOpt, opt);
+    this.options = opt;//$.extend(true, {}, defOpt, opt);
+    this.$elm = $(elm);
+    this.exist = false;
+    this.enabled = true;
+
+    var $elm = this.$elm
+      , opt = this.options;
+
     //提示内容处理
     this.fixtitle();
-    this.enabled = true;
     // 默认显示
     if(opt.show)
       this.show();
@@ -57,9 +85,11 @@
     // 事件监听
     trigger(that, $elm, opt)
     // 浏览器窗口大小改变
+    /*
     window.onresize = function(){
       that.update();
     }
+    */
     // 如果不始终显示
     if(!opt.live){
       //点击空白区域 关闭 sidebar
@@ -74,9 +104,9 @@
   Contip.prototype = {
 
       html: function(html){
-        if(!this.enabled || !this.$tip)
-          return;
-        var $tip = this.$tip
+        if(!this.enabled)
+          return
+        var $tip = this.tip()
           , $con = $tip.find('.contip-con');
         $con.html(html);
         //更新显示位置
@@ -84,120 +114,134 @@
       },
 
       show: function(){
-        if(!this.enabled || this.$tip)
-          return;
+        if(!this.enabled || this.exist)
+          return
+        //表示正在显示中
+        this.exist = true;
         var opt = this.options
-          , $tip = this.newtip();
-        $tip.remove().css({visibility: 'hidden',opacity: opt.opacity}).prependTo(document.body);
+          , $tip = this.tip();
+        // $tip.attr('original-style', $tip.attr('style'));
+        $tip.remove().css({ display: 'block', visibility: 'hidden'}).prependTo(document.body);
         // 更新显示位置
         this.update();
         // 显示
-        $tip.css({visibility: 'visible', display: 'none'});
-        $tip.stop().fadeIn(this.options.fade);
-        // 如果不始终显示
-        if(!opt.live){
-          $tip.click(function(event){
-              event.stopPropagation(); // 防止事件冒泡
-          });
-        }
+        $tip.stop().css({opacity: 0, visibility: 'visible'}).animate({opacity: this.options.opacity}, this.options.fade);
       },
 
-      update: function(){
-        // alert(this.$tip);
-        if(!this.$tip)
-          return;
-        var $tip = this.$tip
-          , $v = $tip.find('.contip-v');
-        var tip_w = $tip[0].offsetWidth
-          , tip_h = $tip[0].offsetHeight
-          , elm_w = this.$elm[0].offsetWidth
-          , elm_h = this.$elm[0].offsetHeight;
-        var style = this.style(tip_w, tip_h, elm_w, elm_h);
-        // 小三角 样式
-        $v.attr('style',$v.attr('style')+style.v);
-        // tip 样式
-        $tip.attr('style',$tip.attr('style')+style.tip);
-      },
-
-      newtip: function(){
+      tip: function(){
           if (!this.$tip){
-              var o = this.options
-                , html = o.html || '';
-              this.$tip = $('<div class="contip" style="z-index:10000; position:absolute; background:'+o.bg+'; max-width:'+o.max_width+'px; padding:'+o.padding+'px; border-radius:'+o.radius+'px;"></div>')
-              .html('<div class="contip-v" style="position:absolute; width:0; height:0; border:solid transparent '+o.v_size+'px;"></div><div class="contip-con" style="color:'+o.color+'; font-size:'+o.font_size+'; background:'+o.fg+'; border-radius:'+o.radius+'px;">'+html+'</div>');
+            var o = this.options
+              , html = o.html || '';
+            this.$tip = $('<div class="contip" style="z-index:10000; position:absolute; opacity:'+o.opacity+'; background:'+o.bg+'; max-width:'+o.max_width+'px; padding:'+o.padding+'px; border-radius:'+o.radius+'px;"></div>')
+            .html('<div class="contip-v" style="position:absolute; width:0; height:0; border:solid transparent '+o.v_size+'px;"></div><div class="contip-con" style="color:'+o.color+'; font-size:'+o.font_size+'; background:'+o.fg+'; border-radius:'+o.radius+'px;">'+html+'</div>');
+            // 如果不始终显示
+            if(!o.live){
+              this.$tip.click(function(event){
+                  event.stopPropagation(); // 防止事件冒泡
+              });
+            }
           }
           return this.$tip;
       },
 
+      update: function(){
+        // alert(this.$tip);
+        if(!this.exist)
+          return
+        var tip_w = this.$tip[0].offsetWidth
+          , tip_h = this.$tip[0].offsetHeight
+          , elm_w = this.$elm[0].offsetWidth
+          , elm_h = this.$elm[0].offsetHeight;
+        //改变位置等样式
+        // console.log([tip_w, tip_h, elm_w, elm_h]);
+        this.offset(tip_w, tip_h, elm_w, elm_h);
+      },
+
       // tip 气泡样式
-      style: function(tip_w, tip_h, elm_w, elm_h){
-        var o = this.options
+      offset: function(tip_w, tip_h, elm_w, elm_h){
+        var $tip = this.tip()
+          , $v = $tip.find('.contip-v')
+          , o = this.options
           , ofs = this.$elm.offset()
-          , vsize = o.v_size*2
-          , vstyle = ' border-'+o.align+'-color:'+o.bg+';'
-          , tipstyle = ' ';
+          , vsize = o.v_size*2;
+
+        //$v.attr('already', true); //已经初始化
+
         switch(o.align){
+
           case 'left':
             var vright = -vsize
               , vtop = o.v_px + (tip_h-vsize)*o.v_pos
               , ttop = ofs.top -vtop -o.v_size + elm_h*o.elm_pos + o.elm_px
               , tleft = ofs.left -tip_w -o.v_size - o.rise;
-            vstyle += ' right:'+vright+'px; top:'+vtop+'px;';
-            tipstyle += ' left:'+tleft+'px; top:'+ttop+'px;';
-            break;
+            $v.css({right: vright, top: vtop, borderLeftColor: o.bg});
+            $tip.css({left: tleft, top: ttop});
+            return
+
           case 'right':
             var vleft = -vsize
               , vtop = o.v_px + (tip_h-vsize)*o.v_pos
               , ttop = ofs.top -vtop -o.v_size + elm_h*o.elm_pos + o.elm_px
               , tleft = ofs.left + elm_w + o.v_size + o.rise;
-            vstyle += ' left:'+vleft+'px; top:'+vtop+'px;';
-            tipstyle += ' left:'+tleft+'px; top:'+ttop+'px;';
-            break;
+            $v.css({left: vleft, top: vtop, borderRightColor: o.bg});
+            $tip.css({left: tleft, top: ttop});
+            return
+
           case 'bottom':
             var vtop = -vsize
               , vleft = o.v_px + (tip_w-vsize)*o.v_pos
               , tleft = ofs.left -vleft -o.v_size + elm_w*o.elm_pos + o.elm_px
               , ttop = ofs.top +elm_h +o.v_size + o.rise;
-            vstyle += ' left:'+vleft+'px; top:'+vtop+'px;';
-            tipstyle += ' left:'+tleft+'px; top:'+ttop+'px;';
-            break;
+            $v.css({left: vleft, top: vtop, borderBottomColor: o.bg});
+            $tip.css({left: tleft, top: ttop});
+            return
+
           case 'top':
           default:
             var vbottom = -vsize
               , vleft = o.v_px + (tip_w-vsize)*o.v_pos
               , tleft = ofs.left -vleft -o.v_size + elm_w*o.elm_pos + o.elm_px
               , ttop = ofs.top -tip_h -o.v_size - o.rise;
-            vstyle += ' left:'+vleft+'px; bottom:'+vbottom+'px;';
-            tipstyle += ' left:'+tleft+'px; top:'+ttop+'px;';
-            break;
+            $v.css({left: vleft, bottom: vbottom, borderTopColor: o.bg});
+            $tip.css({left: tleft, top: ttop});
+            // console.log({left: tleft, top: ttop});
+            return
         }
-        return {tip: tipstyle, v: vstyle};
+
       },
 
       hide: function(){
-        if(!this.$tip)
+        if(!this.exist)
           return
-        var $tip = this.$tip;
-        $tip.stop().fadeOut(this.options.fade,function(){$tip.remove()});
-        this.$tip = null;
+        if(this.options.fade) {
+          this.tip().stop().fadeOut(this.options.fade, function(){ $(this).remove();});
+        } else {
+          this.tip().remove();
+        }
+        this.exist = false;
       },
 
       fixtitle: function(){
         var o = this.options;
         if(o.html)
           return
-        var $e = this.$elm;
-        o.html = $e.attr(o.attr);
+        var $elm = this.$elm;
+        o.html = $elm.attr(o.attr);
         if(o.attr=='title'){
-          $e.attr('original-title', $e.attr('title') || '').removeAttr('title');
+          $elm.attr('original-title', $elm.attr('title') || '').removeAttr('title');
         }
       },
     
       enable: function() { this.enabled = true; },
       disable: function() { this.enabled = false; },
-      toggleEnabled: function() { this.enabled = !this.enabled; }
+      toggleEnabled: function() { this.enabled = !this.enabled; },
+
+      //销毁自己
+      destroy: function(){
+        delete Contips['id'+this.id];
+        delete this;
+      }
   };
-  
 
 
   var defOpt = {
