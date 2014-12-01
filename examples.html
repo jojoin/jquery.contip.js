@@ -39,7 +39,7 @@
 
 <div class="bg">
   <p style="font-size: 14px; text-align: center">contips示例：鼠标操作下面的黑块</p>
-  <div class="item one1">滑过上</div>
+  <div class="item one1" title="contips示例：透明度">滑过上</div>
   <div class="item one2">滑过下</div>
   <div class="item one3">点击</div>
   <input class="item one4" value="点击输入框" />
@@ -49,6 +49,34 @@
 
 
 <script type="text/javascript">
+
+
+  $('.one1').contip({
+    fade: 0,
+    rise: 0,
+    align: 'top',
+    show: true,
+    html: '<div class="item">显示</div>'
+    //attr: 'extitle'
+    //live: true
+  });
+
+  $('.one3').contip({
+    trigger: 'click'
+  });
+
+
+  $('.one4').contip({
+    trigger: 'focus',
+    align: 'right',
+    fade: 360,
+    rise: 10,
+  });
+
+
+
+/*
+
 
   $('.one1').contips({
     con: 'contips提示框<br>上'
@@ -76,6 +104,10 @@
     mode:'instant', //显示的方式 instant hover click focus
     con: 'contips提示框<br>默认显示'
   });
+
+*/
+
+
 
 
 </script>
