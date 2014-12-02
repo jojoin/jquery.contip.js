@@ -53,37 +53,42 @@
 
   $('.one1').contip({
     align: 'top',
+    bg: '#1B7FA3',
     // html: '上方出现提示框'
     // attr: 'extitle'
     // live: true
-  });
+  }).show();
 
   $('.one2').contip({
     align: 'bottom',
+    bg: '#f00',
     fade: 360,
     opacity: 0.5,
     html: '下方出现提示框，有动画及透明度'
-  });
+  }).show();
 
   $('.one3').contip({
     trigger: 'click',
     align: 'top',
+    bg: '#C6BC22',
+    color: '#000',
     rise: 10,
     v_pos: 0.0,
     v_px: 5,
     elm_pos: 0.0,
     elm_px: 10,
     html: '点击出现提示框，并有浮动和位移'
-  });
+  }).show();
 
 
   $('.one4').contip({
     trigger: 'focus',
     align: 'left',
+    bg: '#0E755A',
     fade: 360,
     rise: 10,
     html: '输入框提示'
-  });
+  }).show();
 
   var pop5 = $('.one5').contip({
     align: 'bottom',
@@ -96,7 +101,7 @@
     html: '<div style="padding:10px;"><div class="item">显示html</div><br>延迟一秒打开关闭<br>鼠标移入不关闭</div>'
     //attr: 'extitle'
     //live: true
-  });
+  }).show();
 
 
   /*
@@ -126,8 +131,6 @@
     show: true,
     live: true,
     html: '始终显示<br>提示框 气泡'
-    //attr: 'extitle'
-    //live: true
   });
 
 

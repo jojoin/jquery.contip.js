@@ -46,8 +46,6 @@
   }
 
 
-
-
   // 气泡类
   function Contip(elm, opt){
     this.options = opt;//$.extend(true, {}, defOpt, opt);
@@ -107,6 +105,7 @@
       this.revive();
       // 显示事件
       this._do('show', this.$tip);
+      return this;
     },
 
     tip: function(){
@@ -143,6 +142,7 @@
           that.$elm.mouseleave(); // 调用关闭逻辑
         });
       }
+      return this;
     },
 
     // 刷新显示位置等样式
@@ -157,6 +157,7 @@
       //改变位置等样式
       // console.log([tip_w, tip_h, elm_w, elm_h]);
       this.offset(tip_w, tip_h, elm_w, elm_h);
+      return this;
     },
 
     // tip 气泡样式
@@ -223,6 +224,7 @@
       }
       this.exist = false;
       this._do('hide');
+      return this;
     },
 
     fixtitle: function(){
@@ -289,6 +291,7 @@
       if(!this.onFunc[name])
         this.onFunc[name] = [];
       this.onFunc[name].push(func);
+      return this;
     },
 
 
@@ -302,9 +305,9 @@
     },
 
   
-    enable: function() { this.enabled = true; },
-    disable: function() { this.enabled = false; },
-    toggleEnabled: function() { this.enabled = !this.enabled; }
+    enable: function() { this.enabled = true; return this;},
+    disable: function() { this.enabled = false; return this;},
+    toggleEnabled: function() { this.enabled = !this.enabled; return this;}
   };
 
 
