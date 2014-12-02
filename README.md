@@ -3,6 +3,32 @@ jquery.contip.js
 
 一个基于JQuery的气泡提示框tip插件。
 
+![tips](https://github.com/yangjiePro/jquery.contip.js/blob/master/tips.jpg)
+
+
+示例代码：
+
+```javascript
+
+var pop = $('.elm').contip({
+  align: 'bottom', //出现在元素底部
+  html: '提示框内容'
+}); 
+
+pop.show(); //默认显示提示框
+
+// 提示框事件监听
+pop.on('create',function($tip){
+    // alert('创建tip！');
+});
+
+pop.on('show',function($tip){
+    // alert('显示tip');
+});
+
+```
+
+
 ##选项
 
 ```javascript
@@ -40,19 +66,6 @@ jquery.contip.js
     elm_px: 0 // 尖角偏移 可为负值
 
   };
-```
-
-
-
-示例代码：
-
-```javascript
-
-$('.elm').contip({
-  align: 'bottom', //出现在元素底部
-  html: '提示框内容'
-});
-
 ```
 
 
