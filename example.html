@@ -39,11 +39,11 @@
 
 <div class="bg">
   <p style="font-size: 14px; text-align: center">contip示例：</p>
-  <div class="item one1" title="contips示例：透明度">滑过上</div>
+  <div class="item one1" title="上方出现提示框，覆盖title属性">滑过上</div>
   <div class="item one2">滑过下</div>
   <div class="item one3">点击出现</div>
   <input class="item one4" value="输入框" />
-  <div class="item one5">html</div>
+  <div class="item one5">html延迟</div>
   <div class="item one6">显示</div>
 </div>
 
@@ -53,9 +53,9 @@
 
   $('.one1').contip({
     align: 'top',
-    html: '上方出现提示框'
-    //attr: 'extitle'
-    //live: true
+    // html: '上方出现提示框'
+    // attr: 'extitle'
+    // live: true
   });
 
   $('.one2').contip({
@@ -85,58 +85,50 @@
     html: '输入框提示'
   });
 
-  $('.one5').contip({
+  var pop5 = $('.one5').contip({
     align: 'bottom',
     fg: '#fff',
     bg: '#999',
+    color: '#000',
     padding: 1,
-    html: '<div class="item">显示html</div>'
+    delay_in: 500, //延迟显示
+    delay_out: 500, //延迟关闭
+    html: '<div style="padding:10px;"><div class="item">显示html</div><br>延迟一秒打开关闭<br>鼠标移入不关闭</div>'
     //attr: 'extitle'
     //live: true
   });
+
+
+  /*
+   * 提示框事件监听
+   */
+  pop5.on('create',function($tip){
+    // alert('新建tip！！！');
+  });
+
+  pop5.on('show',function($tip){
+    // alert('显示tip');
+  });
+
+  pop5.on('hide',function(){
+    // alert('隐藏tip');
+  });
+
+  // 默认显示提示框
+  pop5.show();
+
+
 
   $('.one6').contip({
     fade: 0,
     rise: 0,
     align: 'bottom',
     show: true,
-    html: '默认显示提示框'
+    live: true,
+    html: '始终显示<br>提示框 气泡'
     //attr: 'extitle'
     //live: true
   });
-
-
-/*
-
-
-  $('.one1').contips({
-    con: 'contips提示框<br>上'
-  });
-
-  $('.one2').contips({
-    align: 'bottom',
-    ready: function($elm,$tip){
-      $tip.find('.con').html( 'contips提示框<br>下');
-    } //数据回调
-  });
-
-  $('.one3').contips({
-    mode:'click', //显示的方式 instant hover click focus
-    con: 'contips提示框<br>点击出现'
-  });
-
-  $('.one4').contips({
-    mode:'focus', //显示的方式 instant hover click focus
-    con: 'contips提示框<br>输入框'
-  });
-
-  $('.one6').contips({
-    align: 'bottom',
-    mode:'instant', //显示的方式 instant hover click focus
-    con: 'contips提示框<br>默认显示'
-  });
-
-*/
 
 
 
