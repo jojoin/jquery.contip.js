@@ -35,6 +35,7 @@ pop.on('show',function($tip){
 
 //默认选项
 {
+  name: 'mytip', // 气泡的 name 和 class 
   align: 'top', // 气泡出现的位置， top right bottom left
   padding: 7,
   radius: 4, // 气泡圆角大小 px
