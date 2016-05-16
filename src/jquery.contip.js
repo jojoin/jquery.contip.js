@@ -111,7 +111,7 @@
           var that = this
             , o = this.options
             , html = o.html || '';
-          this.$tip = $('<div class="contip" style="z-index:10000; position:absolute; opacity:'+o.opacity+'; background:'+o.bg+'; max-width:'+o.max_width+'px; padding:'+o.padding+'px; border-radius:'+o.radius+'px;"></div>')
+          this.$tip = $('<div class="contip '+o.name+'" name="'+o.name+'" style="z-index:10000; position:absolute; opacity:'+o.opacity+'; background:'+o.bg+'; max-width:'+o.max_width+'px; padding:'+o.padding+'px; border-radius:'+o.radius+'px;"></div>')
           .html('<div class="contip-v" style="position:absolute; width:0; height:0; border:solid transparent '+o.v_size+'px;"></div><div class="contip-con" style="color:'+o.color+'; font-size:'+o.font_size+'; background:'+o.fg+'; border-radius:'+o.radius+'px;">'+html+'</div>');
           // 创建事件
           this._do('create', this.$tip);
@@ -310,7 +310,7 @@
 
 
   var defOpt = {
-
+    name: '', // .contip 元素的 name 和 class
     align: 'top', // 气泡出现的位置， top right bottom left
     padding: 7,
     radius: 4, // 气泡圆角大小 px
